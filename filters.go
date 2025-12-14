@@ -8,16 +8,24 @@ import (
 type Filter func(Port) bool
 
 func (r Ports) Filter(callbacks ...Filter) iter.Seq[Port] {
+	skip := func(port Port) bool {
+		for _, callback := range callbacks {
+			if !callback(port) {
+				return true
+			}
+		}
+
+		return false
+	}
+
 	return func(yield func(Port) bool) {
 		for _, port := range r {
-			for _, callback := range callbacks {
-				if !callback(port) {
-					continue
-				}
+			if skip(port) {
+				continue
+			}
 
-				if !yield(port) {
-					return
-				}
+			if !yield(port) {
+				return
 			}
 		}
 	}

@@ -2,7 +2,6 @@ package netports
 
 import (
 	"fmt"
-	"slices"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -22,16 +21,26 @@ func TestPortRange(t *testing.T) {
 	)
 }
 
+func TestFilters(t *testing.T) {
+	t.Parallel()
+
+	grouped := KnownPorts.FilterCollect(FilterByProto(TCP), FilterByCategory(CategoryWellKnown, CategoryRegistered)).
+		GroupByNumber()
+
+	_, ok := grouped[65530]
+	assert.False(t, ok)
+}
+
 func ExamplePorts() {
 	fmt.Printf("%d %d",
-		len(slices.Collect(KnownPorts.Filter(
+		len(KnownPorts.FilterCollect(
 			FilterByProto(TCP),
 			FilterByCategory(CategoryWellKnown, CategoryRegistered),
-		))),
-		len(slices.Collect(KnownPorts.Filter(
+		)),
+		len(KnownPorts.FilterCollect(
 			FilterByProto(UDP),
 			FilterByCategory(CategoryWellKnown, CategoryRegistered),
-		))),
+		)),
 	)
 	// Output: 2853 2448
 }
