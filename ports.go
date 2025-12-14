@@ -64,8 +64,8 @@ const (
 	RegistrationReserved RegistrationStatus = "Reserved"
 )
 
-func (r Ports) GroupByProto(proto PortProto) map[uint16][]Port {
-	mapping := make(map[uint16][]Port, 1000)
+func (r Ports) GroupByProto(proto PortProto) map[uint16]Ports {
+	mapping := make(map[uint16]Ports, 1000)
 
 	for _, port := range r {
 		status, ok := port.Types[proto]
