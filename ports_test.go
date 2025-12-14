@@ -1,15 +1,21 @@
 package main
 
 import (
-	"fmt"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestPortRange(t *testing.T) {
-	ssh, ok := KnownPorts.Mapping(TCP)[22]
-	if !ok {
-		t.Error("ssh port not found")
-	}
+	t.Parallel()
 
-	fmt.Printf("%+v\n", ssh)
+	ssh, ok := KnownPorts.GroupByProto(TCP)[22]
+	assert.True(t, ok)
+	assert.Len(t, ssh, 1)
+
+	assert.Equal(
+		t,
+		"Secure Shell (SSH), secure logins, file transfers (scp, sftp) and port forwarding",
+		ssh[0].Description,
+	)
 }
