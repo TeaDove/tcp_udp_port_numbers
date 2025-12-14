@@ -4,29 +4,31 @@ Well known ports parsed from https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_p
 ports.json - JSON array file with all ports parsed from Wikipedia in format:
 ```go
 type Port struct {
-	// Start
-	// Start and end range. Single port is represented as [port, port], i.e. {22, 22}
-	// multiple ports are represented as [min, max] included, i.e. {2001, 2009}
-	Start uint16 `json:"start"`
-	End   uint16 `json:"end"`
+    // Start
+    // Port number range start and end. Single port is represented as [port, port], i.e. {22, 22}
+    // multiple ports are represented as [min, max] included, i.e. {2001, 2009}
+    Start uint16 `json:"start"`
+    End   uint16 `json:"end"`
 
-	Category    string `json:"category"`
-	Description string `json:"description"`
+    Category    PortCategory `json:"category"`
+    Description string       `json:"description"`
 
-	Types map[PortProto]RegistrationStatus `json:"types"`
+    Types map[PortProto]RegistrationStatus `json:"types"`
 }
 ```
 
 ## Usage
 ```shell
-go get github.com/teadove/tcp_udp_port_numbers
+# Install
+go get github.com/teadove/netports
 ```
+
 ```go
 package main
 
-import "github.com/TeaDove/tcp_udp_port_numbers"
+import "github.com/teadove/netports"
 
 func main(){
-    fmt.Printf("%+v\n", tcp_udp_port_numbers.KnownPorts()[0])
+    fmt.Printf("%+v\n", netports.KnownPorts()[0])
 }
 ```
