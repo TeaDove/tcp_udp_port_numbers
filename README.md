@@ -19,7 +19,7 @@ type Port struct {
 
 ## Usage
 ```shell
-go get github.com/TeaDove/tcp_udp_port_numbers
+go get github.com/teadove/tcp_udp_port_numbers
 ```
 ```go
 package main
